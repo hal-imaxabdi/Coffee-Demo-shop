@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">Coffee-in</div>
+        <ul class="nav-links">
+            <li><a href="index.html" onclick="return goToHomePage(event)">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="#orders">My Orders</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <span class="user-name" id="userName">Welcome!</span>
+            <a href="#" class="btn-signin" onclick="logout(event)">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="dashboard-container">
+            <h1>Welcome to Your Coffee Dashboard</h1>
+            <p>Manage your orders, favorites, and discover new coffee experiences</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Stats -->
+    <section class="dashboard-stats">
+        <div class="dashboard-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M35 10H5V30H35V10Z" stroke="#6F4E37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 15H30" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M10 20H25" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 id="totalOrders">0</h3>
+                    <p>Total Orders</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 5L23 15L33 15L25 21L28 31L20 25L12 31L15 21L7 15L17 15L20 5Z" fill="#D4A574"/>
+                        </svg>
+                    </div>
+                    <h3>5</h3>
+                    <p>Favorites</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="15" stroke="#6F4E37" stroke-width="2"/>
+                            <path d="M20 10V20L27 27" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 id="pendingOrders">0</h3>
+                    <p>Pending</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 20L18 23L25 16" stroke="#6F4E37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="20" cy="20" r="15" stroke="#6F4E37" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 id="completedOrders">0</h3>
+                    <p>Completed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Orders -->
+    <section class="recent-orders" id="orders">
+        <div class="dashboard-container">
+            <h2>Recent Orders</h2>
+            <div class="orders-list" id="ordersList">
+                <p style="text-align: center; color: var(--light-brown); padding: 2rem;">No orders yet. Start ordering from our menu!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="dashboard-container">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <a href="index.html" class="action-card" onclick="return goToHomePage(event)">
+                    <div class="action-icon">☕</div>
+                    <h3>Order Coffee</h3>
+                    <p>Browse our menu and place a new order</p>
+                </a>
+
+                <a href="#favorites" class="action-card">
+                    <div class="action-icon">⭐</div>
+                    <h3>View Favorites</h3>
+                    <p>Quick access to your favorite drinks</p>
+                </a>
+
+                <a href="#orders" class="action-card">
+                    <div class="action-icon">📋</div>
+                    <h3>Order History</h3>
+                    <p>View all your past orders</p>
+                </a>
+
+                <a href="#profile" class="action-card">
+                    <div class="action-icon">👤</div>
+                    <h3>Edit Profile</h3>
+                    <p>Update your personal information</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-logo">ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫</h3>
+                <p>Your premium coffee experience, delivered with care.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="#orders">My Orders</a></li>
+                    <li><a href="index.html" onclick="return goToHomePage(event)">Home</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#help">Help Center</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#terms">Terms of Service</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Contact Us</h4>
+                <p>+62 802-918-2132</p>
+                <p><a href="mailto:info@coffee-in.com">info@coffee-in.com</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Display user name and check authentication
+        window.onload = function() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            const currentUser = sessionStorage.getItem('currentUser');
+            
+            if (isLoggedIn !== 'true' || !currentUser) {
+                alert('Please login to access the dashboard');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const user = JSON.parse(currentUser);
+            document.getElementById('userName').textContent = 'Welcome, ' + user.name.split(' ')[0] + '!';
+            
+            // Load user orders
+            loadUserOrders(user.email);
+        };
+
+        // Load user orders
+        function loadUserOrders(userEmail) {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const userOrders = orders.filter(order => order.userId === userEmail);
+            
+            // Update stats
+            document.getElementById('totalOrders').textContent = userOrders.length;
+            
+            const pendingCount = userOrders.filter(o => o.status === 'pending').length;
+            const completedCount = userOrders.filter(o => o.status === 'completed').length;
+            
+            document.getElementById('pendingOrders').textContent = pendingCount;
+            document.getElementById('completedOrders').textContent = completedCount;
+            
+            // Display recent orders
+            const ordersList = document.getElementById('ordersList');
+            
+            if (userOrders.length === 0) {
+                ordersList.innerHTML = '<p style="text-align: center; color: var(--light-brown); padding: 2rem;">No orders yet. Start ordering from our menu!</p>';
+                return;
+            }
+            
+            // Show last 5 orders
+            const recentOrders = userOrders.slice(-5).reverse();
+            
+            ordersList.innerHTML = recentOrders.map(order => {
+                const date = new Date(order.date);
+                const formattedDate = date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                return `
+                    <div class="order-card">
+                        <div class="order-image">
+                            <img src="images/capuccino.jpg" alt="${order.item}">
+                        </div>
+                        <div class="order-details">
+                            <h3>${order.item}</h3>
+                            <p class="order-date">${formattedDate}</p>
+                            <p class="order-status ${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</p>
+                        </div>
+                        <div class="order-price">
+                            <span>${order.price}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Navigate to home page without logging out
+        function goToHomePage(event) {
+            event.preventDefault();
+            window.location.href = 'index.html';
+            return false;
+        }
+
+        // Logout function
+        function logout(event) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('currentUser');
+                sessionStorage.removeItem('isLoggedIn');
+                alert('You have been logged out successfully!');
+                window.location.href = 'index.html';
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>

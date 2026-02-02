@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫 - Premium Coffee Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        <div class="nav-buttons" id="navButtons">
+            <a href="login.html" class="btn-signin">Sign In</a>
+            <a href="signup.html" class="btn-signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">We've got your morning covered with</p>
+            <h1 class="hero-title">𝓒𝓸𝓯𝓯𝓮𝓮</h1>
+            <p class="hero-description">It is best to start your day with a cup of coffee. Discover the best flavours coffee you will ever have. We provide the best for our customers.</p>
+            <a href="#menu" class="btn-order" onclick="return navigateToSection(event, 'menu')">Order Now</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <h2 class="section-title">Enjoy a new blend of coffee style</h2>
+        <p class="section-subtitle">Explore all flavours of coffee with us. There is always a new cup worth experiencing</p>
+        
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="images/capuccino.jpg" alt="Cappuccino">
+                </div>
+                <h3>Cappuccino</h3>
+                <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
+                <p class="price">$8.50</p>
+                <button class="btn-order-item" onclick="orderItem('Cappuccino', '$8.50')">Order Now</button>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="images/latte.jpg" alt="Chai Latte">
+                </div>
+                <h3>Chai Latte</h3>
+                <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
+                <p class="price">$8.50</p>
+                <button class="btn-order-item" onclick="orderItem('Chai Latte', '$8.50')">Order Now</button>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="images/iced-caramel-macchiato.jpg" alt="Macchiato">
+                </div>
+                <h3>Macchiato</h3>
+                <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
+                <p class="price">$8.50</p>
+                <button class="btn-order-item" onclick="orderItem('Macchiato', '$8.50')">Order Now</button>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-image">
+                    <img src="images/espresso.jpg" alt="Espresso">
+                </div>
+                <h3>Espresso</h3>
+                <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
+                <p class="price">$8.50</p>
+                <button class="btn-order-item" onclick="orderItem('Espresso', '$8.50')">Order Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Different Section -->
+    <section id="about" class="why-different">
+        <div class="coffee-splash-left">
+            <img src="images/coffee-splash.jpg" alt="Coffee splash">
+        </div>
+        <h2 class="section-title">Why are we different?</h2>
+        <p class="section-subtitle">We don't just make your coffee, we make your day!</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M30 10C18.954 10 10 18.954 10 30C10 41.046 18.954 50 30 50C41.046 50 50 41.046 50 30C50 18.954 41.046 10 30 10ZM30 15C32.761 15 35 17.239 35 20C35 22.761 32.761 25 30 25C27.239 25 25 22.761 25 20C25 17.239 27.239 15 30 15ZM30 45C25.589 45 21.637 42.842 19 39.531C19.045 36.148 26 34.25 30 34.25C33.988 34.25 40.955 36.148 41 39.531C38.363 42.842 34.411 45 30 45Z" fill="#6F4E37"/>
+                    </svg>
+                </div>
+                <h3>Supreme Beans</h3>
+                <p>Beans that provides great taste</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M30 5L35 20L50 20L38 28L42 43L30 35L18 43L22 28L10 20L25 20L30 5Z" fill="#6F4E37"/>
+                    </svg>
+                </div>
+                <h3>High Quality</h3>
+                <p>We provide the highest quality</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 10C12.239 10 10 12.239 10 15V40C10 42.761 12.239 45 15 45H45C47.761 45 50 42.761 50 40V15C50 12.239 47.761 10 45 10H15ZM20 20H40V30H20V20ZM20 35H30V40H20V35Z" fill="#6F4E37"/>
+                    </svg>
+                </div>
+                <h3>Extraordinary</h3>
+                <p>Coffee like you have never tasted</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M30 10C18.954 10 10 18.954 10 30C10 41.046 18.954 50 30 50C41.046 50 50 41.046 50 30C50 18.954 41.046 10 30 10ZM28 20H32V30H42V34H28V20Z" fill="#6F4E37"/>
+                    </svg>
+                </div>
+                <h3>Affordable Price</h3>
+                <p>Our Coffee prices are easy to afford</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial">
+        <div class="coffee-splash-right">
+            <img src="images/right.jpg" alt="Coffee splash">
+        </div>
+        <h2 class="section-title">Our coffee perfection feedback</h2>
+        <p class="section-subtitle">Our customers has amazing things to say about us</p>
+        
+        <div class="testimonial-card">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-text">The coffee here is absolutely amazing! The quality and taste are unmatched. I've tried many coffee shops, but this one stands out.</p>
+            <div class="testimonial-author">
+                <h4>Kim Jiwoon</h4>
+                <p>Project Manager</p>
+            </div>
+            <div class="testimonial-image">
+                <img src="images/human.png" alt="Kim Jiwoon">
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="newsletter-coffee-left">
+            <img src="images/left.jpg" alt="Coffee cup">
+        </div>
+        <div class="newsletter-coffee-right">
+            <img src="images/right.jpg" alt="Coffee cup">
+        </div>
+        <h2>Subscribe to get the Latest News</h2>
+        <p>Don't miss out on our latest news, updates, tips and special offers</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Enter your mail" id="newsletter-email">
+            <button class="btn-subscribe" onclick="subscribeNewsletter()">Subscribe</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-logo">ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫</h3>
+                <p>Your premium coffee experience, delivered with care.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#menu" onclick="return navigateToSection(event, 'menu')">Menu</a></li>
+                    <li><a href="#about" onclick="return navigateToSection(event, 'about')">Features</a></li>
+                    <li><a href="#testimonial">News & Blogs</a></li>
+                    <li><a href="#contact">Help & Supports</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#about" onclick="return navigateToSection(event, 'about')">How we work</a></li>
+                    <li><a href="#terms">Terms of service</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Contact Us</h4>
+                <p>Jalan Paladio Astr strr 8738</p>
+                <p>+62 802-918-2132</p>
+                <p><a href="mailto:info@coffee-in.com">info@coffee-in.com</a></p>
+                <p><a href="http://www.coffee-in.com">www.coffee-in.com</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+.dashboard-hero {
+    background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%);
+    padding: 5rem 5rem;
+    text-align: center;
+    color: var(--white);
+}
+
+.dashboard-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.dashboard-section {
+    padding: 5rem 5rem;
+    background-color: var(--cream);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.dashboard-card {
+    background-color: var(--white);
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 2px 15px var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(111, 78, 55, 0.2);
+}
+
+.card-icon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--primary-brown);
+    margin-bottom: 0.8rem;
+}
+
+.dashboard-card p {
+    color: var(--light-brown);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.btn-card {
+    padding: 0.8rem 2rem;
+    background-color: var(--gold);
+    color: var(--black);
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-card:hover {
+    background-color: var(--beige);
+    transform: scale(1.05);
+}
+
+.recent-orders {
+    padding: 5rem 5rem;
+    background-color: var(--white);
+}
+
+.recent-orders h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--primary-brown);
+    margin-bottom: 2rem;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--cream);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.order-item:hover {
+    box-shadow: 0 4px 15px var(--shadow);
+    transform: translateX(5px);
+}
+
+.order-info {
+    flex: 1;
+}
+
+.order-info h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--primary-brown);
+    margin-bottom: 0.3rem;
+}
+
+.order-info p {
+    color: var(--light-brown);
+    font-size: 0.9rem;
+}
+
+.order-status {
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 2rem;
+}
+
+.order-status.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.order-status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.order-price {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary-brown);
+}
+
+.user-name {
+    color: var(--white);
+    margin-right: 1rem;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-hero,
+    .dashboard-section,
+    .recent-orders {
+        padding: 3rem 2rem;
+    }
+}
