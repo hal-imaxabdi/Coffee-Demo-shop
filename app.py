@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-change-this-in-production'  # Change this!
+app.secret_key = 'your-secret-key-change-this-in-production'  # We will change in improvement implementation
 CORS(app, supports_credentials=True)
 
 # Database setup
@@ -105,7 +105,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-# ==================== PAGE ROUTES ====================
 
 @app.route('/')
 def index():
@@ -133,7 +132,6 @@ def dashboard_page():
         return redirect(url_for('login_page'))
     return render_template('dashboard.html')
 
-# ==================== API ROUTES ====================
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -146,7 +144,6 @@ def login():
     conn = get_db()
     cursor = conn.cursor()
     
-    # Find user by email or phone
     cursor.execute('''
         SELECT * FROM users 
         WHERE (email = ? OR phone = ?) AND password = ?
@@ -154,7 +151,6 @@ def login():
     
     user = cursor.fetchone()
     
-    # Log the login attempt
     cursor.execute('''
         INSERT INTO login_attempts (email_or_phone, ip_address, success)
         VALUES (?, ?, ?)
@@ -163,7 +159,6 @@ def login():
     conn.commit()
     
     if user:
-        # Store user in session
         session['user_id'] = user['id']
         session['user_email'] = user['email']
         session['user_name'] = user['name']
@@ -199,7 +194,6 @@ def signup():
     cursor = conn.cursor()
     
     try:
-        # Check if user already exists
         cursor.execute('SELECT * FROM users WHERE email = ? OR phone = ?', (email, phone))
         existing_user = cursor.fetchone()
         
@@ -210,7 +204,6 @@ def signup():
                 'message': 'User with this email or phone already exists'
             }), 400
         
-        # Insert new user
         cursor.execute('''
             INSERT INTO users (name, email, phone, password)
             VALUES (?, ?, ?, ?)
@@ -282,7 +275,6 @@ def orders():
     cursor = conn.cursor()
     
     if request.method == 'GET':
-        # Get user's orders
         cursor.execute('''
             SELECT o.* FROM orders o
             WHERE o.user_id = ?
@@ -298,7 +290,6 @@ def orders():
         }), 200
     
     elif request.method == 'POST':
-        # Create new order
         data = request.get_json()
         item_name = data.get('item')
         price = data.get('price')
@@ -346,8 +337,6 @@ def newsletter():
             'message': 'Email already subscribed'
         }), 400
 
-# ==================== ADMIN ROUTES ====================
-
 @app.route('/api/admin/login-attempts', methods=['GET'])
 def get_login_attempts():
     """Get all login attempts for monitoring"""
@@ -383,7 +372,6 @@ def get_all_users():
     }), 200
 
 if __name__ == '__main__':
-    # Initialize database on first run
     if not os.path.exists(DATABASE):
         init_db()
         print("Database initialized with demo data!")
@@ -394,19 +382,10 @@ if __name__ == '__main__':
         print("4. bob@demo.com / qwerty")
         print("5. alice@test.com / letmein")
     
-    print("\n" + "="*60)
-    print("🚀 Coffee-in Flask Server Starting...")
-    print("="*60)
-    print("\n📍 Access your website at:")
-    print("   👉 http://localhost:5000")
-    print("   👉 http://127.0.0.1:5000")
-    print("\n📄 Available pages:")
-    print("   - http://localhost:5000/          (Home)")
-    print("   - http://localhost:5000/login     (Login)")
-    print("   - http://localhost:5000/signup    (Signup)")
-    print("   - http://localhost:5000/dashboard (Dashboard)")
-    print("\n💡 Sessions will work properly now!")
-    print("="*60 + "\n")
+    print("Coffee-in Flask Server Starting...")
+    print("\n Access your website at:")
+    print("    http://localhost:5000")
+    print("    http://127.0.0.1:5000")
     
-    # Run the Flask app
+
     app.run(debug=True, host='0.0.0.0', port=5000)
