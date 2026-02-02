@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
     <nav class="navbar">
         <div class="logo">Coffee-in</div>
         <ul class="nav-links">
-            <li><a href="index.html" onclick="return goToHomePage(event)">Home</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="#orders">My Orders</a></li>
         </ul>
         <div class="nav-buttons">
@@ -89,7 +89,7 @@
         <div class="dashboard-container">
             <h2>Recent Orders</h2>
             <div class="orders-list" id="ordersList">
-                <p style="text-align: center; color: var(--light-brown); padding: 2rem;">No orders yet. Start ordering from our menu!</p>
+                <p style="text-align: center; color: var(--light-brown); padding: 2rem;">Loading orders...</p>
             </div>
         </div>
     </section>
@@ -99,7 +99,7 @@
         <div class="dashboard-container">
             <h2>Quick Actions</h2>
             <div class="actions-grid">
-                <a href="index.html" class="action-card" onclick="return goToHomePage(event)">
+                <a href="/" class="action-card">
                     <div class="action-icon">☕</div>
                     <h3>Order Coffee</h3>
                     <p>Browse our menu and place a new order</p>
@@ -137,9 +137,9 @@
             <div class="footer-column">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
                     <li><a href="#orders">My Orders</a></li>
-                    <li><a href="index.html" onclick="return goToHomePage(event)">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -167,90 +167,118 @@
     </footer>
 
     <script>
-        // Display user name and check authentication
-        window.onload = function() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-            const currentUser = sessionStorage.getItem('currentUser');
-            
-            if (isLoggedIn !== 'true' || !currentUser) {
-                alert('Please login to access the dashboard');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            const user = JSON.parse(currentUser);
-            document.getElementById('userName').textContent = 'Welcome, ' + user.name.split(' ')[0] + '!';
-            
-            // Load user orders
-            loadUserOrders(user.email);
+        const API_URL = '/api';
+
+        // Load dashboard data on page load
+        window.onload = async function() {
+            await loadDashboard();
         };
 
-        // Load user orders
-        function loadUserOrders(userEmail) {
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            const userOrders = orders.filter(order => order.userId === userEmail);
-            
-            // Update stats
-            document.getElementById('totalOrders').textContent = userOrders.length;
-            
-            const pendingCount = userOrders.filter(o => o.status === 'pending').length;
-            const completedCount = userOrders.filter(o => o.status === 'completed').length;
-            
-            document.getElementById('pendingOrders').textContent = pendingCount;
-            document.getElementById('completedOrders').textContent = completedCount;
-            
-            // Display recent orders
-            const ordersList = document.getElementById('ordersList');
-            
-            if (userOrders.length === 0) {
-                ordersList.innerHTML = '<p style="text-align: center; color: var(--light-brown); padding: 2rem;">No orders yet. Start ordering from our menu!</p>';
-                return;
-            }
-            
-            // Show last 5 orders
-            const recentOrders = userOrders.slice(-5).reverse();
-            
-            ordersList.innerHTML = recentOrders.map(order => {
-                const date = new Date(order.date);
-                const formattedDate = date.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+        async function loadDashboard() {
+            try {
+                // Get current user
+                const userResponse = await fetch(`${API_URL}/current-user`, {
+                    credentials: 'include'
                 });
                 
-                return `
-                    <div class="order-card">
-                        <div class="order-image">
-                            <img src="images/capuccino.jpg" alt="${order.item}">
-                        </div>
-                        <div class="order-details">
-                            <h3>${order.item}</h3>
-                            <p class="order-date">${formattedDate}</p>
-                            <p class="order-status ${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</p>
-                        </div>
-                        <div class="order-price">
-                            <span>${order.price}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                const userData = await userResponse.json();
+                
+                if (!userData.success) {
+                    alert('Please login to access the dashboard');
+                    window.location.href = '/login';
+                    return;
+                }
+                
+                const user = userData.user;
+                document.getElementById('userName').textContent = 'Welcome, ' + user.name.split(' ')[0] + '!';
+                
+                // Load orders
+                await loadUserOrders();
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                alert('Please login to access the dashboard');
+                window.location.href = '/login';
+            }
         }
 
-        // Navigate to home page without logging out
-        function goToHomePage(event) {
-            event.preventDefault();
-            window.location.href = 'index.html';
-            return false;
+        async function loadUserOrders() {
+            try {
+                const response = await fetch(`${API_URL}/orders`, {
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    document.getElementById('ordersList').innerHTML = '<p style="text-align: center; color: var(--light-brown); padding: 2rem;">Error loading orders.</p>';
+                    return;
+                }
+                
+                const orders = data.orders;
+                
+                // Update stats
+                document.getElementById('totalOrders').textContent = orders.length;
+                
+                const pendingCount = orders.filter(o => o.status === 'pending').length;
+                const completedCount = orders.filter(o => o.status === 'completed').length;
+                
+                document.getElementById('pendingOrders').textContent = pendingCount;
+                document.getElementById('completedOrders').textContent = completedCount;
+                
+                // Display orders
+                const ordersList = document.getElementById('ordersList');
+                
+                if (orders.length === 0) {
+                    ordersList.innerHTML = '<p style="text-align: center; color: var(--light-brown); padding: 2rem;">No orders yet. Start ordering from our menu!</p>';
+                    return;
+                }
+                
+                // Show all orders (most recent first)
+                ordersList.innerHTML = orders.map(order => {
+                    const date = new Date(order.order_date);
+                    const formattedDate = date.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    
+                    return `
+                        <div class="order-card">
+                            <div class="order-image">
+                                <img src="{{ url_for('static', filename='images/capuccino.jpg') }}" alt="${order.item_name}">
+                            </div>
+                            <div class="order-details">
+                                <h3>${order.item_name}</h3>
+                                <p class="order-date">${formattedDate}</p>
+                                <p class="order-status ${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</p>
+                            </div>
+                            <div class="order-price">
+                                <span>${order.price}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('ordersList').innerHTML = '<p style="text-align: center; color: var(--light-brown); padding: 2rem;">Error loading orders.</p>';
+            }
         }
 
-        // Logout function
-        function logout(event) {
+        async function logout(event) {
             event.preventDefault();
             if (confirm('Are you sure you want to logout?')) {
-                sessionStorage.removeItem('currentUser');
-                sessionStorage.removeItem('isLoggedIn');
-                alert('You have been logged out successfully!');
-                window.location.href = 'index.html';
+                try {
+                    await fetch(`${API_URL}/logout`, {
+                        method: 'POST',
+                        credentials: 'include'
+                    });
+                    
+                    alert('You have been logged out successfully!');
+                    window.location.href = '/';
+                } catch (error) {
+                    console.error('Error:', error);
+                    window.location.href = '/';
+                }
             }
             return false;
         }

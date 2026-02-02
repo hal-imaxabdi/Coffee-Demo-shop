@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫 - Premium Coffee Shop</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,8 +20,8 @@
             <li><a href="#contact">Contact Us</a></li>
         </ul>
         <div class="nav-buttons" id="navButtons">
-            <a href="login.html" class="btn-signin">Sign In</a>
-            <a href="signup.html" class="btn-signup">Sign Up</a>
+            <a href="/login" class="btn-signin">Sign In</a>
+            <a href="/signup" class="btn-signup">Sign Up</a>
         </div>
     </nav>
 
@@ -43,7 +43,7 @@
         <div class="menu-grid">
             <div class="menu-item">
                 <div class="menu-image">
-                    <img src="images/capuccino.jpg" alt="Cappuccino">
+                    <img src="{{ url_for('static', filename='images/capuccino.jpg') }}" alt="Cappuccino">
                 </div>
                 <h3>Cappuccino</h3>
                 <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
@@ -53,7 +53,7 @@
 
             <div class="menu-item">
                 <div class="menu-image">
-                    <img src="images/latte.jpg" alt="Chai Latte">
+                    <img src="{{ url_for('static', filename='images/latte.jpg') }}" alt="Chai Latte">
                 </div>
                 <h3>Chai Latte</h3>
                 <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
@@ -63,7 +63,7 @@
 
             <div class="menu-item">
                 <div class="menu-image">
-                    <img src="images/iced-caramel-macchiato.jpg" alt="Macchiato">
+                    <img src="{{ url_for('static', filename='images/iced-caramel-macchiato.jpg') }}" alt="Macchiato">
                 </div>
                 <h3>Macchiato</h3>
                 <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
@@ -73,7 +73,7 @@
 
             <div class="menu-item">
                 <div class="menu-image">
-                    <img src="images/espresso.jpg" alt="Espresso">
+                    <img src="{{ url_for('static', filename='images/espresso.jpg') }}" alt="Espresso">
                 </div>
                 <h3>Espresso</h3>
                 <p class="coffee-ratio">Coffee 50% | Milk 50%</p>
@@ -86,7 +86,7 @@
     <!-- Why Different Section -->
     <section id="about" class="why-different">
         <div class="coffee-splash-left">
-            <img src="images/coffee-splash.jpg" alt="Coffee splash">
+            <img src="{{ url_for('static', filename='images/coffee-splash.jpg') }}" alt="Coffee splash">
         </div>
         <h2 class="section-title">Why are we different?</h2>
         <p class="section-subtitle">We don't just make your coffee, we make your day!</p>
@@ -137,7 +137,7 @@
     <!-- Testimonial Section -->
     <section class="testimonial">
         <div class="coffee-splash-right">
-            <img src="images/right.jpg" alt="Coffee splash">
+            <img src="{{ url_for('static', filename='images/right.jpg') }}" alt="Coffee splash">
         </div>
         <h2 class="section-title">Our coffee perfection feedback</h2>
         <p class="section-subtitle">Our customers has amazing things to say about us</p>
@@ -150,7 +150,7 @@
                 <p>Project Manager</p>
             </div>
             <div class="testimonial-image">
-                <img src="images/human.png" alt="Kim Jiwoon">
+                <img src="{{ url_for('static', filename='images/human.png') }}" alt="Kim Jiwoon">
             </div>
         </div>
     </section>
@@ -158,10 +158,10 @@
     <!-- Newsletter Section -->
     <section class="newsletter">
         <div class="newsletter-coffee-left">
-            <img src="images/left.jpg" alt="Coffee cup">
+            <img src="{{ url_for('static', filename='images/left.jpg') }}" alt="Coffee cup">
         </div>
         <div class="newsletter-coffee-right">
-            <img src="images/right.jpg" alt="Coffee cup">
+            <img src="{{ url_for('static', filename='images/right.jpg') }}" alt="Coffee cup">
         </div>
         <h2>Subscribe to get the Latest News</h2>
         <p>Don't miss out on our latest news, updates, tips and special offers</p>
@@ -213,6 +213,6 @@
         </div>
     </footer>
 
-    <script src="script-backend.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - ℭ𝔬𝔣𝔣𝔢𝔢-𝔦𝔫</title>
-    <link rel="stylesheet" href="auth-styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth-styles.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -72,7 +72,7 @@
                     <button type="submit" class="btn-submit">Sign up</button>
 
                     <p class="auth-footer">
-                        Already have an account? <a href="login.html">Sign in</a>
+                        Already have an account? <a href="/login">Sign in</a>
                     </p>
                 </form>
 
@@ -81,10 +81,10 @@
         </div>
 
         <div class="auth-right">
-            <img src="images/2.jpg" alt="Coffee background">
+            <img src="{{ url_for('static', filename='images/2.jpg') }}" alt="Coffee background">
         </div>
     </div>
 
-    <script src="auth-script-backend.js"></script>
+    <script src="{{ url_for('static', filename='js/auth-script.js') }}"></script>
 </body>
 </html>

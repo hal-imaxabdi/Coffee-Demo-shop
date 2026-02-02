@@ -1,24 +1,33 @@
 // API Base URL
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 
 // Check login status on page load
-window.addEventListener('DOMContentLoaded', function() {
-    checkLoginStatus();
+window.addEventListener('DOMContentLoaded', async function() {
+    await checkLoginStatus();
 });
 
 // Function to check if user is logged in
-function checkLoginStatus() {
-    const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    const currentUser = sessionStorage.getItem('currentUser');
+async function checkLoginStatus() {
     const navButtons = document.getElementById('navButtons');
     
-    if (isLoggedIn === 'true' && currentUser) {
-        const user = JSON.parse(currentUser);
-        navButtons.innerHTML = `
-            <span class="user-name">Welcome, ${user.name.split(' ')[0]}!</span>
-            <a href="dashboard.html" class="btn-signin">Dashboard</a>
-            <a href="#" class="btn-signup" onclick="logout(event)">Logout</a>
-        `;
+    try {
+        const response = await fetch(`${API_URL}/current-user`, {
+            credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success && data.user) {
+            const user = data.user;
+            navButtons.innerHTML = `
+                <span class="user-name">Welcome, ${user.name.split(' ')[0]}!</span>
+                <a href="/dashboard" class="btn-signin">Dashboard</a>
+                <a href="#" class="btn-signup" onclick="logout(event)">Logout</a>
+            `;
+        }
+    } catch (error) {
+        // User not logged in - show default buttons
+        console.log('User not logged in');
     }
 }
 
@@ -32,16 +41,11 @@ async function logout(event) {
                 credentials: 'include'
             });
             
-            sessionStorage.removeItem('currentUser');
-            sessionStorage.removeItem('isLoggedIn');
             alert('You have been logged out successfully!');
-            window.location.href = 'index.html';
+            window.location.href = '/';
         } catch (error) {
             console.error('Error:', error);
-            // Still logout on frontend even if backend fails
-            sessionStorage.removeItem('currentUser');
-            sessionStorage.removeItem('isLoggedIn');
-            window.location.href = 'index.html';
+            window.location.href = '/';
         }
     }
 }
@@ -61,37 +65,44 @@ function navigateToSection(event, sectionId) {
 
 // Order item function
 async function orderItem(itemName, itemPrice) {
-    const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    
-    if (isLoggedIn === 'true') {
-        try {
-            const response = await fetch(`${API_URL}/orders`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    item: itemName,
-                    price: itemPrice
-                })
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                alert(`${itemName} (${itemPrice}) has been added to your orders!`);
-            } else {
-                alert(data.message || 'Failed to place order.');
+    try {
+        // Check if logged in first
+        const userResponse = await fetch(`${API_URL}/current-user`, {
+            credentials: 'include'
+        });
+        
+        const userData = await userResponse.json();
+        
+        if (!userData.success) {
+            if (confirm('Please login to place an order. Would you like to login now?')) {
+                window.location.href = '/login';
             }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Please make sure the backend server is running.');
+            return;
         }
-    } else {
-        if (confirm('Please login to place an order. Would you like to login now?')) {
-            window.location.href = 'login.html';
+        
+        // Place order
+        const response = await fetch(`${API_URL}/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                item: itemName,
+                price: itemPrice
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert(`${itemName} (${itemPrice}) has been added to your orders!`);
+        } else {
+            alert(data.message || 'Failed to place order.');
         }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
     }
 }
 
@@ -122,7 +133,7 @@ async function subscribeNewsletter() {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please make sure the backend server is running.');
+            alert('An error occurred. Please try again.');
         }
     } else {
         alert('Please enter a valid email address.');
@@ -174,4 +185,4 @@ document.querySelectorAll('.menu-item, .feature-card, .testimonial-card').forEac
     observer.observe(el);
 });
 
-console.log('Coffee-in website loaded successfully with backend integration!');
+console.log('Coffee-in website loaded successfully with Flask backend!');
