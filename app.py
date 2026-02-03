@@ -67,7 +67,7 @@ def init_db():
         )
     ''')
     
-    # Insert demo users with PLAIN TEXT passwords (for brute force demo)
+    # Insert demo users with PLAIN TEXT passwords 
     demo_users = [
         ('Admin User', 'admin@coffee.com', '+1111111111', 'admin123'),
         ('John Doe', 'john@test.com', '+2222222222', 'password'),
