@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 *.so
 .Python
+env/
+venv/
+ENV/
 build/
 develop-eggs/
 dist/
@@ -16,37 +19,37 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
 # Virtual Environment
 venv/
 ENV/
 env/
-.venv
 
-# Environment Variables
-.env
-.env.local
-.env.*.local
-
-# Database
+# Database files - NEVER commit these (contain user data)
 *.db
 *.sqlite
 *.sqlite3
 secure_coffee_shop.db
 
-# Logs
+# Log files - NEVER commit these (contain sensitive security logs)
 *.log
-logs/
-security.log
 app.log
+security.log
 
-# IDE
+# Sensitive wordlists - NEVER commit these (security risk)
+emails.txt
+passwords.txt
+usernames.txt
+email.txt
+password.txt
+
+# Brute force results - NEVER commit these
+successful_credentials.txt
+
+# IDE/Editor files
 .vscode/
 .idea/
 *.swp
@@ -54,33 +57,17 @@ app.log
 *~
 .DS_Store
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.hypothesis/
-
-# Security
-*.key
-*.pem
-*.crt
-ssl/
-secrets/
-
-# Backups
-*.backup
-*.bak
-backups/
-
-# OS
-Thumbs.db
-.DS_Store
+# Environment variables
+.env
+.env.local
+.env.*.local
 
 # Temporary files
+*.tmp
+*.temp
 tmp/
 temp/
-*.tmp
 
-# Session files
-flask_session/
+# OS files
+Thumbs.db
+.DS_Store
