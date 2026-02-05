@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Database files - NEVER commit these (contain user data)
+*.db
+*.sqlite
+*.sqlite3
+secure_coffee_shop.db
+
+# Log files - NEVER commit these (contain sensitive security logs)
+*.log
+app.log
+security.log
+
+# Sensitive wordlists - NEVER commit these (security risk)
+emails.txt
+passwords.txt
+usernames.txt
+email.txt
+password.txt
+
+# Brute force results - NEVER commit these
+successful_credentials.txt
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# OS files
+Thumbs.db
+.DS_Store
