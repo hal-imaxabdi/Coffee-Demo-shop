@@ -1,5 +1,5 @@
-# ☕ Coffee-in — Brute Force Attack Simulator
-### Cryptography and Data Security | Final Project 2026
+#  Coffee-in — Brute Force Attack Simulator
+### Cryptography and Data Security 
 
 > A practical demonstration of brute-force attack vulnerabilities and security countermeasures in web application authentication systems, built as a coffee shop e-commerce site.
 
