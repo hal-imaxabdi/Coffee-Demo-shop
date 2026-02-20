@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Coffee-in</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth-styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-content">
+                <div class="logo-circle">
+                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+                        <circle cx="25" cy="25" r="23" fill="url(#grad)" stroke="white" stroke-width="2"/>
+                        <defs>
+                            <linearGradient id="grad" x1="0" y1="0" x2="50" y2="50">
+                                <stop offset="0%" style="stop-color:#D4A574"/>
+                                <stop offset="100%" style="stop-color:#6F4E37"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <h1>Nice to see you again</h1>
+
+                <form id="loginForm" onsubmit="return handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Login</label>
+                        <input type="text" id="login-email" placeholder="Email or phone number" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="login-password" placeholder="Enter password" required autocomplete="current-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword('login-password')">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="currentColor" stroke-width="1.5"/>
+                                    <circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Sign in</button>
+                    <p class="auth-footer">
+                        Don't have an account? <a href="/signup">Sign up now</a>
+                    </p>
+                </form>
+
+                <div class="copyright">&copy; 2026 Coffee-in</div>
+            </div>
+        </div>
+        <div class="auth-right">
+            <img src="{{ url_for('static', filename='images/2.jpg') }}" alt="Coffee background">
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/auth-script.js') }}"></script>
+</body>
+</html>
