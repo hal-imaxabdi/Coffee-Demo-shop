@@ -1,8 +1,8 @@
 # Coffee-in — Brute Force Attack Simulator
 
-**Cryptography and Data Security 
+**Cryptography and Data Security**
 
-> A practical, educational demonstration of brute-force attack vulnerabilities and real-world security countermeasures, built on a functional coffee shop e-commerce web application.
+ A practical, educational demonstration of brute-force attack vulnerabilities and real-world security countermeasures, built on a functional coffee shop e-commerce web application.
 
 ---
 ## Project Overview
@@ -175,51 +175,6 @@ python brute_force_gui.py
 ```
 
 Fill in the target URL, email list, and password list using the file browser, then click **Start Attack**.
-
----
-
-## What to Observe
-
-### On the Vulnerable Version (`main`)
-- Every login attempt goes through with no blocking or delay
-- Correct credentials are found and reported in the terminal
-- All 6 accounts are cracked in approximately 74 seconds
-
-### On the Secure Version (`secure`)
-- The first 10 requests per minute are processed normally
-- After 10 attempts: **HTTP 429 Too Many Requests** — rate limiter activates
-- After 5 failed attempts on one account: **account locked for 15 minutes**
-- After 5 failed attempts from one IP: **IP blocked for 30 minutes**
-- Any request missing a valid CSRF token: **HTTP 403 Forbidden**
-- All failure responses are identical — no user enumeration possible
-
----
-
-## Vulnerabilities in the `main` Branch
-
-| Vulnerability | Detail |
-|---------------|--------|
-| Plaintext password storage | Passwords stored directly in the database with no hashing |
-| No rate limiting | Login endpoint accepts unlimited requests per second |
-| No account lockout | Unlimited failed attempts allowed per account |
-| Verbose error messages | Different responses for wrong username vs wrong password, enabling user enumeration |
-| No CSRF protection | Forms accept requests from any origin |
-
----
-
-## Security Controls in the `secure` Branch
-
-| Control | Implementation |
-|---------|---------------|
-| Password hashing | BCrypt with SHA-256 pre-hashing + per-user 32-byte salt (work factor 12) |
-| Rate limiting | Flask-Limiter — 10 requests/minute per IP on `/api/login` |
-| Account lockout | 5 failed attempts → account locked for 15 minutes |
-| IP blocking | 5 failed attempts from one IP → blocked for 30 minutes |
-| JWT authentication | RSA-256 signed tokens, 1-hour expiry, server-side revocation |
-| CSRF protection | Single-use 64-character hex tokens, 1-hour expiry |
-| Generic error messages | All failures return identical `"Invalid credentials"` — prevents enumeration |
-| Security headers | X-Frame-Options, CSP, X-Content-Type-Options, HttpOnly + SameSite cookies |
-| Client-side password strength | Enforces 12+ characters, uppercase, lowercase, number, and special character |
 
 ---
 
