@@ -40,17 +40,6 @@ Coffee-Demo-shop/
 └── seed_user.py            # (secure branch only) Seeds test accounts into the database
 ```
 
----
-
-## Attack Results Summary
-
-| Version | Result |
-|---------|--------|
-| Vulnerable | All 6 demo accounts compromised in **74.33 seconds** (~4.57 attempts/second) |
-| Secure | Attack blocked after 10 attempts — **HTTP 429 Too Many Requests** |
-
----
-
 ## Setup Instructions
 
 ### Prerequisites
