@@ -1,4 +1,3 @@
-````
 # ☕ Coffee-in — Brute Force Attack Demo & Security Showcase
 
 > A full-stack e-commerce web application built to demonstrate the real-world impact of brute-force attacks on authentication systems — and how to stop them.
@@ -10,7 +9,7 @@
 
 ---
 
-## 📌 Overview
+##  Overview
 
 **Coffee-in** is a simulated coffee shop e-commerce platform developed in two distinct versions to enable a direct, side-by-side comparison of secure vs. vulnerable authentication design:
 
@@ -23,7 +22,7 @@ The project was developed as part of a Cryptography & Data Security course at **
 
 ---
 
-## 🎯 What This Project Proves
+##  What This Project Proves
 
 Against the **vulnerable version**, a custom Python brute-force script cracked **9 out of 10 accounts in just 74.33 seconds** at 4.57 attempts/second.
 
@@ -40,7 +39,7 @@ Against the **secure version**, the same tool ran for 123 seconds across 570 att
 
 ---
 
-## 🔓 Vulnerable Version (main branch)
+##  Vulnerable Version (main branch)
 
 The vulnerable version replicates common real-world misconfigurations:
 
@@ -60,7 +59,7 @@ Credentials found: 9/10 accounts compromised
 
 ---
 
-## 🔐 Secure Version (secure branch)
+## Secure Version (secure branch)
 
 The secure version implements **7 independent defense layers**:
 
@@ -105,7 +104,7 @@ Credentials found: 0
 
 ---
 
-## 🖥️ Client-Side Security (auth-script.js)
+##  Client-Side Security (auth-script.js)
 
 The secure version also defends on the browser side through `auth-script.js`:
 
@@ -115,7 +114,7 @@ The secure version also defends on the browser side through `auth-script.js`:
 
 ---
 
-## 🗂️ Repository Structure
+##  Repository Structure
 
 ```
 Coffee-Demo-shop/
@@ -136,7 +135,7 @@ Coffee-Demo-shop/
 
 ---
 
-## ⚙️ Setup & Running
+##  Setup & Running
 
 ### Vulnerable Version
 ```bash
@@ -179,7 +178,7 @@ Configure the target URL, wordlists, thread count, and delay via the Tkinter int
 
 ---
 
-## 📊 Results Summary
+##  Results Summary
 
 | Metric | Vulnerable | Secure |
 |---|---|---|
@@ -212,4 +211,3 @@ Configure the target URL, wordlists, thread count, and delay via the Tkinter int
 ---
 
 > ⚠️ **Disclaimer:** The attack tools in this repository are built strictly for educational and research purposes in a controlled local environment. Do not use them against systems you do not own or have explicit permission to test.
-````
