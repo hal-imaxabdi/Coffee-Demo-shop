@@ -1,186 +1,215 @@
-# Coffee-in — Brute Force Attack Simulator
+````
+# ☕ Coffee-in — Brute Force Attack Demo & Security Showcase
 
-**Cryptography and Data Security**
+> A full-stack e-commerce web application built to demonstrate the real-world impact of brute-force attacks on authentication systems — and how to stop them.
 
- A practical, educational demonstration of brute-force attack vulnerabilities and real-world security countermeasures, built on a functional coffee shop e-commerce web application.
-
----
-## Project Overview
-
-This project simulates a real-world brute-force attack scenario against a web application login system, then demonstrates how proper security controls render such attacks ineffective. The application — a fictional coffee shop called **Coffee-in** — was built twice: once intentionally vulnerable, and once hardened with industry-standard defenses.
-
-The goal is to show, side by side, how quickly an unsecured login system can be compromised and how layered security controls stop the same attack completely.
+![Flask](https://img.shields.io/badge/Backend-Flask%20%28Python%29-blue)
+![SQLite](https://img.shields.io/badge/Database-SQLite-lightgrey)
+![Security](https://img.shields.io/badge/Focus-Cybersecurity-red)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
 
 ---
 
-## Repository Structure
+## 📌 Overview
 
-This repository uses **two branches** for direct comparison:
+**Coffee-in** is a simulated coffee shop e-commerce platform developed in two distinct versions to enable a direct, side-by-side comparison of secure vs. vulnerable authentication design:
 
-| Branch | Description |
-|--------|-------------|
-| `main` | **Vulnerable version** — no rate limiting, plaintext passwords, verbose errors |
-| `secure` | **Secure version** — BCrypt hashing, rate limiting, JWT, CSRF protection, account lockout |
+| Version | Description |
+|---|---|
+| `main` branch | ❌ Vulnerable — intentionally insecure, no countermeasures |
+| `secure` branch | ✅ Hardened — 7 layered security mechanisms implemented |
 
-```bash
-git checkout main      # vulnerable version
-git checkout secure    # secure version
+The project was developed as part of a Cryptography & Data Security course at **President University**, with the goal of validating how server-side and client-side controls can completely neutralize brute-force attacks.
+
+---
+
+## 🎯 What This Project Proves
+
+Against the **vulnerable version**, a custom Python brute-force script cracked **9 out of 10 accounts in just 74.33 seconds** at 4.57 attempts/second.
+
+Against the **secure version**, the same tool ran for 123 seconds across 570 attempts and found **0 valid credentials** — stopped entirely by rate limiting, CSRF protection, and account lockout.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** Python 3.11, Flask 3.0.0
+- **Database:** SQLite 3.x
+- **Frontend:** HTML5, CSS3, JavaScript (ES6)
+- **Attack Tools:** Custom Python CLI (`Brute_Force.py`), Python GUI (`brute_force_gui.py`), Burp Suite
+
+---
+
+## 🔓 Vulnerable Version (main branch)
+
+The vulnerable version replicates common real-world misconfigurations:
+
+- **Plaintext password storage** — passwords stored directly in the database with no hashing
+- **No rate limiting** — the login endpoint accepts unlimited requests per second
+- **No account lockout** — failed attempts are never tracked or blocked
+- **Verbose error messages** — distinct HTTP 401 vs 200 responses allow username enumeration
+- **No request throttling** — enables high-speed automated attacks via tools like Hydra or Burp Suite
+
+### Attack Results (Vulnerable)
+```
+Total attempts:  340
+Duration:        74.33 seconds
+Speed:           4.57 attempts/second
+Credentials found: 9/10 accounts compromised
 ```
 
-**Files included in both branches:**
+---
+
+## 🔐 Secure Version (secure branch)
+
+The secure version implements **7 independent defense layers**:
+
+### 1. BCrypt Password Hashing with Per-User Salt
+Passwords are never stored in plaintext. Each user gets a unique cryptographically random 32-byte salt. The password is combined with the salt, passed through SHA-256, then hashed with BCrypt at work factor 12 (~250ms per verification). Even a full database leak yields nothing crackable in reasonable time.
+
+### 2. IP-Based Rate Limiting (Flask-Limiter)
+- Login endpoint: **10 requests/minute per IP**
+- Registration: **5 requests/hour**
+- Global limits: **200 requests/day, 50 requests/hour**
+- Exceeding limits returns HTTP 429 Too Many Requests, breaking any automated loop
+
+### 3. Account Lockout & IP Blocking
+- **Account level:** 5 consecutive failures locks the account for 15 minutes via `locked_until` field
+- **Network level:** 5 failed attempts from the same IP within 30 minutes blocks that IP for 30 minutes via `ip_blocks` table
+- Successful login resets the failed attempts counter
+
+### 4. JWT Authentication with RSA-256 Digital Signatures
+Session management uses JSON Web Tokens signed with a 2048-bit RSA private key (RS256). Tokens expire after 1 hour and have a unique JWT ID (jti). Every issued token's SHA-256 hash is stored in the `auth_tokens` table. Logout explicitly revokes the token.
+
+### 5. CSRF Token Protection
+Every login and registration request must include a valid 64-character hex CSRF token fetched from `GET /api/csrf-token`. Tokens are single-use and expire after 1 hour. A brute-force script that skips this step receives HTTP 403 on every attempt.
+
+### 6. Generic Error Messages (User Enumeration Prevention)
+All failure cases — wrong email, wrong password, locked account — return the identical HTTP 401 response with `{"error": "Invalid credentials"}` and the same Content-Length, preventing both message-based and timing-based user enumeration.
+
+### 7. Security Headers & Session Hardening
+Every response includes a full set of HTTP security headers via `@app.after_request`:
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+- `Strict-Transport-Security`
+- `Content-Security-Policy`
+- Session cookies: `HttpOnly=True`, `SameSite=Strict`, 1-hour duration
+
+### Attack Results (Secure)
+```
+Total attempts:  570
+Duration:        123.07 seconds
+Speed:           4.63 attempts/second
+Credentials found: 0
+```
+
+---
+
+## 🖥️ Client-Side Security (auth-script.js)
+
+The secure version also defends on the browser side through `auth-script.js`:
+
+- **Real-time password strength enforcement** — blocks weak passwords before they reach the server (min 12 chars, uppercase, lowercase, number, special character, no sequential chars, not a common password)
+- **Input sanitization** — all inputs are HTML-encoded via DOM `textContent` before any API call
+- **Automatic CSRF token management** — fetches and attaches a token to every login/signup request automatically
+
+---
+
+## 🗂️ Repository Structure
 
 ```
 Coffee-Demo-shop/
-├── app.py                  # Flask backend (vulnerable or secure depending on branch)
-├── Brute_Force.py          # CLI brute-force attack tool (multi-threaded)
-├── brute_force_gui.py      # GUI brute-force attack tool (Tkinter)
-├── requirements.txt        # Python dependencies
-├── static/                 # CSS, JS, images
-├── templates/              # HTML pages (login, signup, dashboard, index)
-└── seed_user.py            # (secure branch only) Seeds test accounts into the database
+├── main branch          # Vulnerable version
+│   ├── app.py           # Flask app (no security controls)
+│   ├── Brute_Force.py   # Python CLI brute-force tool
+│   ├── brute_force_gui.py  # Tkinter GUI brute-force tool
+│   ├── emails.txt       # Target email wordlist
+│   ├── passwords.txt    # Password wordlist
+│   └── templates/       # HTML pages
+│
+└── secure branch        # Hardened version
+    ├── app.py           # Flask app (all 7 security mechanisms)
+    ├── auth-script.js   # Client-side security module
+    ├── seed_user.py     # Database seeding script
+    └── templates/       # HTML pages
 ```
-
-## Setup Instructions
-
-### Prerequisites
-
-- Python 3.11 or higher — https://www.python.org/downloads/
-- Git — https://git-scm.com/downloads
 
 ---
 
-### Step 1 — Clone the Repository
+## ⚙️ Setup & Running
 
+### Vulnerable Version
 ```bash
-git clone https://github.com/hal-imaxabdi/Coffee-Demo-shop.git
+git clone https://github.com/hal-imaxabdi/Coffee-Demo-shop
 cd Coffee-Demo-shop
-```
-
----
-
-### Step 2 — Choose Which Version to Run
-
-**Vulnerable version:**
-```bash
-git checkout main
-```
-
-**Secure version:**
-```bash
-git checkout secure
-```
-
----
-
-### Step 3 — Create a Virtual Environment
-
-```bash
-# Windows
-python -m venv .venv
-.venv\Scripts\activate
-
-# Mac/Linux
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
----
-
-### Step 4 — Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-### Step 5 — Seed the Database
-
-**Secure branch only** — run this once before starting the server:
-
-```bash
-python seed_user.py
-```
-
-> The vulnerable (`main`) version seeds test accounts automatically on startup. You can skip this step there.
-
----
-
-### Step 6 — Start the Flask Server
-
-```bash
+pip install flask flask-cors
 python app.py
 ```
 
-Open your browser and go to: **http://127.0.0.1:5000**
+### Secure Version
+```bash
+git checkout secure
+pip install flask flask-cors flask-limiter bcrypt PyJWT cryptography
+python seed_user.py   # Must run before starting the server
+python app.py
+```
+
+Visit `http://localhost:5000`
 
 ---
 
-## Running the Brute Force Attack
+## ⚔️ Running the Brute-Force Tools
 
-Open a **second terminal**, activate your virtual environment, then pick a tool.
-
-### Option A — Python CLI Tool
-
-First, create your wordlists:
-
-```bash
-# Email wordlist
-echo alice@test.com > emails.txt
-echo bob@test.com >> emails.txt
-echo charlie@test.com >> emails.txt
-echo diana@test.com >> emails.txt
-echo eve@test.com >> emails.txt
-echo frank@test.com >> emails.txt
-
-# Password wordlist
-echo wrongpass1 > passwords.txt
-echo wrongpass2 >> passwords.txt
-echo AlicePassword123! >> passwords.txt
-echo BobPassword123!! >> passwords.txt
-echo CharliePass456@ >> passwords.txt
-echo DianaSecure789# >> passwords.txt
-echo EvePassword321$ >> passwords.txt
-echo FrankLogin654% >> passwords.txt
-```
-
-Then run the attack:
-
+### Python CLI
 ```bash
 python Brute_Force.py \
-  -u http://127.0.0.1:5000/login \
-  --attack-type email \
+  --url http://localhost:5000/api/login \
   --email-list emails.txt \
   --password-list passwords.txt \
-  --threads 1 \
-  --delay 0.1 \
-  --debug
+  --attack-type email \
+  --threads 10 \
+  --delay 0.1
 ```
 
-### Option B — GUI Tool
-
+### GUI Tool
 ```bash
 python brute_force_gui.py
 ```
-
-Fill in the target URL, email list, and password list using the file browser, then click **Start Attack**.
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Backend | Python 3.11, Flask 3.0.0 |
-| Database | SQLite 3 |
-| Frontend | HTML5, CSS3, JavaScript (ES6) |
-| Security libraries | BCrypt, PyJWT, Flask-Limiter, Flask-Talisman |
-| Attack tools | Custom Python CLI + GUI scripts, Burp Suite Professional |
+Configure the target URL, wordlists, thread count, and delay via the Tkinter interface.
 
 ---
 
-## Disclaimer
+## 📊 Results Summary
 
-This project was developed **strictly for educational purposes** as part of a university Cryptography and Data Security course. The brute-force tools in this repository are intended solely for testing against the local demo application included here.
+| Metric | Vulnerable | Secure |
+|---|---|---|
+| Accounts cracked | 9 / 10 | 0 / 10 |
+| Attack duration | 74.33s | 123.07s |
+| Avg speed | 4.57 req/s | 4.63 req/s |
+| Blocked by rate limiter | ❌ | ✅ |
+| Password hashing | ❌ Plaintext | ✅ BCrypt + SHA-256 + Salt |
+| CSRF protection | ❌ | ✅ |
+| Account lockout | ❌ | ✅ |
 
-**Do not use these tools against any system you do not own or have explicit written permission to test. Unauthorized use is illegal.**
+---
+
+## 🔮 Possible Improvements
+
+- **HMAC with user-specific secret** to further harden against rainbow table attacks
+- **CAPTCHA** as an additional layer alongside rate limiting for public-facing systems
+- **Adaptive lockout** duration that scales with the number of failed attempts
+
+---
+
+## 👥 Authors
+
+**Group Project:**
+- Wilbert Leonard Harriman
+- Songjie Li
+- Nailha Sakhila Dewi
+- Halima Abdirizak Mohamed
+
+---
+
+> ⚠️ **Disclaimer:** The attack tools in this repository are built strictly for educational and research purposes in a controlled local environment. Do not use them against systems you do not own or have explicit permission to test.
+````
