@@ -203,10 +203,11 @@ Configure the target URL, wordlists, thread count, and delay via the Tkinter int
 ## 👥 Authors
 
 **Group Project:**
+- Halima Abdirizak Mohamed
 - Wilbert Leonard Harriman
 - Songjie Li
 - Nailha Sakhila Dewi
-- Halima Abdirizak Mohamed
+
 
 ---
 
